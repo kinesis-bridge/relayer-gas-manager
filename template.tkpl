@@ -12,8 +12,8 @@ data:
 
 meta:
   chainId: "{{chain}}"
-  sender: {{relayer}}
-  gasLimit: 2300
+  sender: {{sender}}
+  gasLimit: 50000
   gasPrice: 0.00000001
   ttl: 600
 networkId: "{{network}}"
@@ -26,6 +26,8 @@ signers:
           - {{mercatus_account}}
           - decimal: "{{max_swap}}"
 
+  - public: {{sender_key}}
+    caps:
       - name: "coin.GAS"
         args: []
 

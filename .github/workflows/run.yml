@@ -49,8 +49,11 @@ jobs:
       - name: Sign transaction
         env:
           PASSWORD: ${{ secrets.KDA_RELAYERS_PASSWORD }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+
         run: |
-          echo $PASSWORD | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
+          echo $PASSWORD        | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
+          echo $SENDER_PASSWORD | gpg -d --batch --yes --passphrase-fd 0 sender.yaml.gpg | $KDA sign tx.yaml -k -
           $KDA sign tx.yaml -k relayer_temp.key
 
       - name: Submit transaction
@@ -68,7 +71,7 @@ jobs:
         run: |
           mkdir -p tx_archives
           TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
-          FILENAME=tx_archives/tx-"$TIMESTAMP"
+          FILENAME=tx_archives/tx-"$TIMESTAMP".json
 
           $KDA poll tx.json | jq  > $FILENAME
 
