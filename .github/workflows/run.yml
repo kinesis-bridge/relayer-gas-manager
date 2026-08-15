@@ -53,7 +53,7 @@ jobs:
 
         run: |
           echo $PASSWORD        | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
-          echo $SENDER_PASSWORD | gpg -d --batch --yes --passphrase-fd 0 sender.yaml.gpg | $KDA sign tx.yaml -k -
+          echo $SENDER_PASSWORD | gpg -d --batch --yes --passphrase-fd 0 sender.key.gpg | $KDA sign tx.yaml -k -
           $KDA sign tx.yaml -k relayer_temp.key
 
       - name: Submit transaction
