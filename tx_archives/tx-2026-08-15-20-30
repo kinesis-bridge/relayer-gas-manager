@@ -1,0 +1,140 @@
+{
+  "https://api.chainweb-community.org": [
+    {
+      "body": {
+        "kEGqemd1X9FqHZpQUt34JIqvxppBvmYVQbUYJTpSMYg": {
+          "continuation": null,
+          "events": [
+            {
+              "module": {
+                "name": "coin",
+                "namespace": null
+              },
+              "moduleHash": "klFkrLfpyLW-M3xjVPSdqXEMgxPPJibRt_D6qiBws6s",
+              "name": "TRANSFER",
+              "params": [
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                100.1
+              ]
+            },
+            {
+              "module": {
+                "name": "kb-ETH",
+                "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+              },
+              "moduleHash": "F6nZ8UypzsK4cSWNJVbYy-uk6wdtig8nOGkeKeq0fzA",
+              "name": "TRANSFER",
+              "params": [
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                0.000250712472040424
+              ]
+            },
+            {
+              "module": {
+                "name": "exchange",
+                "namespace": "kaddex"
+              },
+              "moduleHash": "cNPjszeIeh00mmnYufcRNL1-Kn_cYOtOUsFBNwejXf8",
+              "name": "UPDATE",
+              "params": [
+                "coin:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.kb-ETH",
+                {
+                  "decimal": "206572.903131032063"
+                },
+                {
+                  "decimal": "0.518692008914826373"
+                }
+              ]
+            },
+            {
+              "module": {
+                "name": "exchange",
+                "namespace": "kaddex"
+              },
+              "moduleHash": "cNPjszeIeh00mmnYufcRNL1-Kn_cYOtOUsFBNwejXf8",
+              "name": "SWAP",
+              "params": [
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                100.1,
+                {
+                  "refName": {
+                    "name": "coin",
+                    "namespace": null
+                  },
+                  "refSpec": [
+                    {
+                      "name": "fungible-v2",
+                      "namespace": null
+                    },
+                    {
+                      "name": "fungible-xchain-v1",
+                      "namespace": null
+                    }
+                  ]
+                },
+                0.000250712472040424,
+                {
+                  "refName": {
+                    "name": "kb-ETH",
+                    "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+                  },
+                  "refSpec": [
+                    {
+                      "name": "fungible-v2",
+                      "namespace": null
+                    },
+                    {
+                      "name": "router-iface",
+                      "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "module": {
+                "name": "coin",
+                "namespace": null
+              },
+              "moduleHash": "klFkrLfpyLW-M3xjVPSdqXEMgxPPJibRt_D6qiBws6s",
+              "name": "TRANSFER",
+              "params": [
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                "99cb7008d7d70c94f138cc366a825f0d9c83a8a2f4ba82c86c666e0ab6fecf3a",
+                0.00002087
+              ]
+            }
+          ],
+          "gas": 2087,
+          "logs": "0VdgSdPGGvMP2c82GS7agxgTDYr4qoVJknBDUBo937Q",
+          "metaData": {
+            "blockHash": "dD-mM0OoWKwYLXZf3LN5DihwlW3WMxDAc6pnX5jej3I",
+            "blockHeight": 7142918,
+            "blockTime": 1786825701189119,
+            "prevBlockHash": "XKSsWwLkQ2dDYp4hvAZ9-obYr9YKxRMXTFxxNHoKCmI"
+          },
+          "reqKey": "kEGqemd1X9FqHZpQUt34JIqvxppBvmYVQbUYJTpSMYg",
+          "result": {
+            "data": [
+              {
+                "amount": 100.1,
+                "token": "coin"
+              },
+              {
+                "amount": 0.000250712472040424,
+                "token": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.kb-ETH"
+              }
+            ],
+            "status": "success"
+          },
+          "txId": 17183907
+        }
+      },
+      "statusCode": 200,
+      "statusMsg": "OK"
+    }
+  ]
+}
