@@ -2,7 +2,6 @@ name: Run Relayers Transactions
 on:
   workflow_dispatch:
 
-
 permissions:
   contents: write
 
@@ -16,13 +15,6 @@ jobs:
 
 
     steps:
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-
       - name: Checkout repository
         uses: actions/checkout@v6
 
@@ -31,6 +23,12 @@ jobs:
         with:
           repository: kinesis-bridge/kadena-hyperlane-keys
           path: keys
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
 
       - name: Install KDA tool
         run: |
