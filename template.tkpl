@@ -1,0 +1,32 @@
+code: |-
+  (use free.util-math)
+  (let ((to-swap (min {{max_swap}} (- (coin.get-balance "{{relayer}}") {{max_gas_fee}}))))
+    (if (>= to-swap 0.0)
+      (kaddex.exchange.swap-exact-in to-swap 0.0 [coin {{kb-eth}}] "{{relayer}}" "{{relayer}}" (keyset-ref-guard "{{relayer_ks}}"))
+      {}
+    )
+  )
+
+data:
+
+
+meta:
+  chainId: "{{chain}}"
+  sender: {{relayer}}
+  gasLimit: 2300
+  gasPrice: 0.00000001
+  ttl: 600
+networkId: "{{network}}"
+signers:
+  - public: {{relayer_key}}
+    caps:
+      - name: coin.TRANSFER
+        args:
+          - {{relayer}}
+          - {{mercatus_account}}
+          - decimal: "{{max_swap}}"
+
+      - name: "coin.GAS"
+        args: []
+
+type: exec

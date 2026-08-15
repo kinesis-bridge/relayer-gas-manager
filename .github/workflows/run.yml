@@ -1,0 +1,82 @@
+name: Run Relayers Transactions
+on:
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+
+jobs:
+  do_run:
+    runs-on: ubuntu-latest
+
+    env:
+      KDA_TOOL_VERSION: "1.2"
+      KADENA_RPC_URL: ${{ vars.KADENA_RPC_URL }}
+
+
+    steps:
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout keys repos
+        uses: actions/checkout@v6
+        with:
+          repository: kinesis-bridge/kadena-hyperlane-keys
+          path: keys
+
+      - name: Install KDA tool
+        run: |
+          ARCHIVE=kda-tool-${KDA_TOOL_VERSION}-ubuntu-24.04.tar.gz
+          wget -nv https://github.com/kda-community/kda-tool/releases/download/${KDA_TOOL_VERSION}/$ARCHIVE
+          tar xzf $ARCHIVE
+          echo "KDA=kda-tool-${KDA_TOOL_VERSION}/kda" >> "$GITHUB_ENV"
+
+      - name: Configure KDA tool
+        run: |
+          mkdir -p ~/.config/kda
+          jq -n --arg value "$KADENA_RPC_URL" '{networks: {mainnet01: $value}}' > ~/.config/kda/config.json
+
+      - name: Prepare transaction
+        run: |
+          $KDA gen -t template.tkpl -d config.yaml
+
+      - name: Sign transaction
+        env:
+          PASSWORD: ${{ secrets.KDA_PAUSER_PASSWORD }}
+        run: |
+          echo $PASSWORD | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
+          $KDA sign tx.yaml relayer_temp.key
+
+      - name: Submit transaction
+        run: |
+          RESULT=$($KDA local tx.json)
+          echo $RESULT | jq
+
+          $KDA send tx.json
+
+      - name: Sleep
+        run: |
+          sleep 180
+
+      - name: Archive result
+        run: |
+          mkdir -p tx_archives
+          TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
+          FILENAME=tx_archives/tx-"$TIMESTAMP"
+
+          $KDA poll tx.json | jq  > $FILENAME
+
+          git add $FILENAME
+
+          git diff --cached --quiet && exit 0
+
+          git commit -m "Add TX result $TIMESTAMP"
+          git push
