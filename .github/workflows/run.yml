@@ -46,11 +46,13 @@ jobs:
         run: |
           $KDA gen -t get_balance.tkpl -d config.yaml
           BALANCE=$($KDA local --no-verify-sigs  tx.yaml | jq -r '.[] | .[] | .body.result.data')
+          echo "Eth Balance:$BALANCE"
           echo "ETH_BALANCE=$BALANCE" >> "$GITHUB_ENV"
 
       - name: Prepare transaction
         run: |
           cp config.yaml config.runtime.yaml
+          echo "" >> config.runtime.yaml
           echo "relayer_eth_balance: $ETH_BALANCE" >> config.runtime.yaml
           $KDA gen -t template.tkpl -d config.runtime.yaml
 
