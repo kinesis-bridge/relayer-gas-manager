@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   do_run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     env:
       KDA_TOOL_VERSION: "1.2"
@@ -42,9 +42,17 @@ jobs:
           mkdir -p ~/.config/kda
           jq -n --arg value "$KADENA_RPC_URL" '{networks: {mainnet01: $value}}' > ~/.config/kda/config.json
 
+      - name: Retrieve relayer Balance
+        run: |
+          $KDA gen -t get_balance.tkpl -d config.yaml
+          BALANCE=$($KDA local --no-verify-sigs  tx.yaml | jq -r '.[] | .[] | .body.result.data')
+          echo "ETH_BALANCE=$BALANCE" >> "$GITHUB_ENV"
+
       - name: Prepare transaction
         run: |
-          $KDA gen -t template.tkpl -d config.yaml
+          cp config.yaml config.runtime.yaml
+          echo "relayer_eth_balance: $ETH_BALANCE" >> config.runtime.yaml
+          $KDA gen -t template.tkpl -d config.runtime.yaml
 
       - name: Sign transaction
         env:
