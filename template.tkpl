@@ -1,19 +1,30 @@
 code: |-
   (use free.util-math)
-  (let ((to-swap (min {{max_swap}} (- (coin.get-balance "{{relayer}}") {{max_gas_fee}}))))
+  (let ((to-swap (min {{max_swap}} (- (coin.get-balance "{{relayer}}") {{max_bridge_fee}})))
+        (eth-to-send (read-decimal 'bridge_value))
+        (kda-to-send (+ (- {{sender_gas_reserve}} (coin.get-balance "{{sender}}"))
+                          ({{kb_ns}}.igp.quote-gas-payment 1))))
+
     (if (>= to-swap 0.0)
-      (kaddex.exchange.swap-exact-in to-swap 0.0 [coin {{kb-eth}}] "{{relayer}}" "{{relayer}}" (keyset-ref-guard "{{relayer_ks}}"))
-      {}
-    )
+        (kaddex.exchange.swap-exact-in to-swap 0.0 [coin {{kb-eth}}] "{{relayer}}" "{{relayer}}" (keyset-ref-guard "{{relayer_ks}}"))
+        {})
+
+    (if (>= eth-to-send {{min_bridge}})
+      (do
+        (coin.transfer "{{relayer}}" "{{sender}}" kda-to-send)
+        ({{kb-eth}}.transfer "{{relayer}}" "{{sender}}" eth-to-send)
+        ({{kb_ns}}.mailbox.dispatch {{kb-eth}} 1 "{{relayer_eth_addr_b64}}" eth-to-send)
+      )
+      "")
   )
 
 data:
-
+  bridge_value: "{{relayer_eth_balance}}"
 
 meta:
   chainId: "{{chain}}"
-  sender: {{relayer}}
-  gasLimit: 2300
+  sender: {{sender}}
+  gasLimit: 50000
   gasPrice: 0.00000001
   ttl: 600
 networkId: "{{network}}"
@@ -26,7 +37,35 @@ signers:
           - {{mercatus_account}}
           - decimal: "{{max_swap}}"
 
+      - name: coin.TRANSFER
+        args:
+          - {{relayer}}
+          - {{sender}}
+          - decimal: "{{max_total_for_fee}}"
+
+      - name: {{kb-eth}}.TRANSFER
+        args:
+          - {{relayer}}
+          - {{sender}}
+          - decimal: "{{max_bridge}}"
+
+  - public: {{sender_key}}
+    caps:
       - name: "coin.GAS"
         args: []
+
+      - name: {{kb-eth}}.TRANSFER_REMOTE
+        args:
+          - int : "1"
+          - {{sender}}
+          - {{relayer_eth_addr_b64}}
+          - decimal: "{{relayer_eth_balance}}"
+
+
+      - name: coin.TRANSFER
+        args:
+          - {{sender}}
+          - {{relayer}}
+          - decimal: "{{max_bridge_fee}}"
 
 type: exec

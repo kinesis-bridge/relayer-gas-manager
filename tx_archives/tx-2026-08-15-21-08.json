@@ -1,0 +1,9 @@
+{
+  "https://api.chainweb-community.org": [
+    {
+      "body": {},
+      "statusCode": 200,
+      "statusMsg": "OK"
+    }
+  ]
+}

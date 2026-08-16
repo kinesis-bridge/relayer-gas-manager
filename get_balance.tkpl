@@ -1,0 +1,20 @@
+code: |-
+  ({{kb-eth}}.get-balance "{{relayer}}")
+
+
+data:
+
+meta:
+  chainId: "{{chain}}"
+  sender: ""
+  gasLimit: 1000
+  gasPrice: 0.00000001
+  ttl: 600
+networkId: "{{network}}"
+signers:
+  - public: {{relayer_key}}
+    caps:
+      - name: coin.GAS
+        args: []
+
+type: exec

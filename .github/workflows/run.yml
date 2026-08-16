@@ -2,13 +2,16 @@ name: Run Relayers Transactions
 on:
   workflow_dispatch:
 
+  schedule:
+    - cron: '15 4 * * *'
+    - cron: '15 6 * * *'
 
 permissions:
   contents: write
 
 jobs:
   do_run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     env:
       KDA_TOOL_VERSION: "1.2"
@@ -16,13 +19,6 @@ jobs:
 
 
     steps:
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-
       - name: Checkout repository
         uses: actions/checkout@v6
 
@@ -31,6 +27,12 @@ jobs:
         with:
           repository: kinesis-bridge/kadena-hyperlane-keys
           path: keys
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
 
       - name: Install KDA tool
         run: |
@@ -44,16 +46,28 @@ jobs:
           mkdir -p ~/.config/kda
           jq -n --arg value "$KADENA_RPC_URL" '{networks: {mainnet01: $value}}' > ~/.config/kda/config.json
 
+      - name: Retrieve relayer Balance
+        run: |
+          $KDA gen -t get_balance.tkpl -d config.yaml
+          BALANCE=$($KDA local --no-verify-sigs  tx.yaml | jq -r '.[] | .[] | .body.result.data')
+          echo "Eth Balance:$BALANCE"
+          echo "ETH_BALANCE=$BALANCE" >> "$GITHUB_ENV"
+
       - name: Prepare transaction
         run: |
-          $KDA gen -t template.tkpl -d config.yaml
+          cp config.yaml config.runtime.yaml
+          echo "" >> config.runtime.yaml
+          echo "relayer_eth_balance: $ETH_BALANCE" >> config.runtime.yaml
+          $KDA gen -t template.tkpl -d config.runtime.yaml
 
       - name: Sign transaction
         env:
-          PASSWORD: ${{ secrets.KDA_PAUSER_PASSWORD }}
+          PASSWORD: ${{ secrets.KDA_RELAYERS_PASSWORD }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+
         run: |
-          echo $PASSWORD | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
-          $KDA sign tx.yaml relayer_temp.key
+          echo $PASSWORD        | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
+          echo $SENDER_PASSWORD | gpg -d --batch --yes --passphrase-fd 0 sender.key.gpg | $KDA sign tx.yaml -k -
 
       - name: Submit transaction
         run: |
@@ -70,7 +84,7 @@ jobs:
         run: |
           mkdir -p tx_archives
           TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
-          FILENAME=tx_archives/tx-"$TIMESTAMP"
+          FILENAME=tx_archives/tx-"$TIMESTAMP".json
 
           $KDA poll tx.json | jq  > $FILENAME
 

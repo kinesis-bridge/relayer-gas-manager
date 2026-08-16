@@ -3,11 +3,19 @@ chain: "2"
 relayer: r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers
 relayer_ks: n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers
 relayer_key: 9e067b9bc735bafe7ca288d8986887f4299cb3608e6299364db78333665a3d38
-relayer_temp: k:427d63a50e30346fee6b8cc67d01749954a4214f9d63f76fa2c42fcc4abb8907
-relayer_temp_key: 427d63a50e30346fee6b8cc67d01749954a4214f9d63f76fa2c42fcc4abb8907
-max_gas_fee: 500.1
-max_swap: 100.1
-min_bridge_amount: 0.005
-relayer_eth_addr_encoded:
+sender: k:ad4e71dc89f4e2aa06ac03784c801e605339eb24191806e226bf85f620fa6e3d
+sender_key: ad4e71dc89f4e2aa06ac03784c801e605339eb24191806e226bf85f620fa6e3d
+# Max gas fee for Bridging
+max_bridge_fee: 500.1
+# Sender reserve for gas
+sender_gas_reserve: 0.5
+
+# Max total to transfer to sender (Fee for bridging + gas reserve)
+max_total_for_fee: 500.6
+max_swap: 200.1
+max_bridge: 0.1
+min_bridge: 0.001
+relayer_eth_addr_b64: AAAAAAAAAAAAAAAAAhmMxxg1uq4bGyletJu4NlrCN-Y
 mercatus_account: Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo
 kb-eth: n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.kb-ETH
+kb_ns: n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff
