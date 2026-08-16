@@ -12,9 +12,9 @@ sender_gas_reserve: 0.5
 
 # Max total to transfer to sender (Fee for bridging + gas reserve)
 max_total_for_fee: 500.6
-max_swap: 100.1
+max_swap: 200.1
 max_bridge: 0.1
-min_bridge: 0.00005
+min_bridge: 0.001
 relayer_eth_addr_b64: AAAAAAAAAAAAAAAAAhmMxxg1uq4bGyletJu4NlrCN-Y
 mercatus_account: Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo
 kb-eth: n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.kb-ETH

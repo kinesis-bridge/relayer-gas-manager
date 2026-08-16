@@ -68,7 +68,4 @@ signers:
           - {{relayer}}
           - decimal: "{{max_bridge_fee}}"
 
-
-  - public: 427d63a50e30346fee6b8cc67d01749954a4214f9d63f76fa2c42fcc4abb8907
-
 type: exec
