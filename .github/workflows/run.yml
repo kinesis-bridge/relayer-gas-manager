@@ -2,6 +2,10 @@ name: Run Relayers Transactions
 on:
   workflow_dispatch:
 
+  schedule:
+    - cron: '15 4 * * *'
+    - cron: '15 6 * * *'
+
 permissions:
   contents: write
 
@@ -64,7 +68,6 @@ jobs:
         run: |
           echo $PASSWORD        | gpg -d --batch --yes --passphrase-fd 0 keys/kadena_relayers.yaml.gpg | $KDA sign tx.yaml -k -
           echo $SENDER_PASSWORD | gpg -d --batch --yes --passphrase-fd 0 sender.key.gpg | $KDA sign tx.yaml -k -
-          $KDA sign tx.yaml -k relayer_temp.key
 
       - name: Submit transaction
         run: |
