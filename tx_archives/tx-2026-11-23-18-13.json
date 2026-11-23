@@ -1,0 +1,131 @@
+{
+  "https://api.chainweb-community.org": [
+    {
+      "body": {
+        "r20ZvINlqzbxcbm8RckrgCA5CLu96ND20Nqgtg5vOb4": {
+          "continuation": null,
+          "events": [
+            {
+              "module": {
+                "name": "coin",
+                "namespace": null
+              },
+              "moduleHash": "klFkrLfpyLW-M3xjVPSdqXEMgxPPJibRt_D6qiBws6s",
+              "name": "TRANSFER",
+              "params": [
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                41.000630589821
+              ]
+            },
+            {
+              "module": {
+                "name": "kb-ETH",
+                "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+              },
+              "moduleHash": "F6nZ8UypzsK4cSWNJVbYy-uk6wdtig8nOGkeKeq0fzA",
+              "name": "TRANSFER",
+              "params": [
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                0.000120010230069786
+              ]
+            },
+            {
+              "module": {
+                "name": "exchange",
+                "namespace": "kaddex"
+              },
+              "moduleHash": "cNPjszeIeh00mmnYufcRNL1-Kn_cYOtOUsFBNwejXf8",
+              "name": "UPDATE",
+              "params": [
+                "coin:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.kb-ETH",
+                {
+                  "decimal": "338764.459110330082"
+                },
+                {
+                  "decimal": "0.994438314474071534"
+                }
+              ]
+            },
+            {
+              "module": {
+                "name": "exchange",
+                "namespace": "kaddex"
+              },
+              "moduleHash": "cNPjszeIeh00mmnYufcRNL1-Kn_cYOtOUsFBNwejXf8",
+              "name": "SWAP",
+              "params": [
+                "Z4qQZwCnb21a_7zv3AMoRTTXFvWnm_IYljV7O4QXBZo",
+                "r:n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff.relayers",
+                41.000630589821,
+                {
+                  "refName": {
+                    "name": "coin",
+                    "namespace": null
+                  },
+                  "refSpec": [
+                    {
+                      "name": "fungible-v2",
+                      "namespace": null
+                    },
+                    {
+                      "name": "fungible-xchain-v1",
+                      "namespace": null
+                    }
+                  ]
+                },
+                0.000120010230069786,
+                {
+                  "refName": {
+                    "name": "kb-ETH",
+                    "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+                  },
+                  "refSpec": [
+                    {
+                      "name": "fungible-v2",
+                      "namespace": null
+                    },
+                    {
+                      "name": "router-iface",
+                      "namespace": "n_e595727b657fbbb3b8e362a05a7bb8d12865c1ff"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "module": {
+                "name": "coin",
+                "namespace": null
+              },
+              "moduleHash": "klFkrLfpyLW-M3xjVPSdqXEMgxPPJibRt_D6qiBws6s",
+              "name": "TRANSFER",
+              "params": [
+                "k:ad4e71dc89f4e2aa06ac03784c801e605339eb24191806e226bf85f620fa6e3d",
+                "w:N8vT8wS8ySQUPC28nvXAOc0tuRKNpF05JVPVPgUB47I:keys-any",
+                0.00002466
+              ]
+            }
+          ],
+          "gas": 2466,
+          "logs": "QqoFWRcFM2sn5snJ-nTmu0vTKw4FG0qsyynMmtEvzSU",
+          "metaData": {
+            "blockHash": "P9FzBvcxvsu0kzEdY4B6vJcNmxB9E6bushsYW13KY7M",
+            "blockHeight": 7430475,
+            "blockTime": 1795457462349000,
+            "prevBlockHash": "DgqAahE-N0ZAMxZ4tnA-Vlt9g7CIgyoF1LMsr3-ai-8"
+          },
+          "reqKey": "r20ZvINlqzbxcbm8RckrgCA5CLu96ND20Nqgtg5vOb4",
+          "result": {
+            "data": "",
+            "status": "success"
+          },
+          "txId": 19875123
+        }
+      },
+      "statusCode": 200,
+      "statusMsg": "OK"
+    }
+  ]
+}
